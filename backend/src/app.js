@@ -21,12 +21,23 @@ import { ApiResponse } from "./utils/ApiResponse.js";
 const app = express();
 
 // ─── GLOBAL MIDDLEWARE ─────────────────────────────────────
+const allowedOrigins = [
+    "https://maa-ki-rasoi-red.vercel.app",
+    "http://localhost:5173"
+];
+
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN,
-        credentials: true,
+        origin: allowedOrigins,
+        credentials: true
     })
 );
+// app.use(
+//     cors({
+//         origin: process.env.CORS_ORIGIN,
+//         credentials: true,
+//     })
+// );
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json({ limit: "16kb" }));
