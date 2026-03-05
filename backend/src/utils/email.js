@@ -4,11 +4,24 @@ import nodemailer from "nodemailer";
  * Create a reusable transporter
  * Supports Gmail, Brevo, or any SMTP provider via env vars
  */
+// const createTransporter = () => {
+//     return nodemailer.createTransport({
+//         host: process.env.SMTP_HOST || "smtp.gmail.com",
+//         port: Number(process.env.SMTP_PORT) || 587,
+//         secure: false,
+//         auth: {
+//             user: process.env.SMTP_USER,
+//             pass: process.env.SMTP_PASS,
+//         },
+//     });
+// };
+
 const createTransporter = () => {
     return nodemailer.createTransport({
         host: process.env.SMTP_HOST || "smtp.gmail.com",
         port: Number(process.env.SMTP_PORT) || 587,
         secure: false,
+        family: 4, // ⭐ Force IPv4 (prevents ENETUNREACH error)
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS,
