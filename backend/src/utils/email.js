@@ -18,14 +18,19 @@ import nodemailer from "nodemailer";
 
 const createTransporter = () => {
     return nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: Number(process.env.SMTP_PORT) || 587,
+        host: "smtp.gmail.com",
+        port: 587,
         secure: false,
-        family: 4, // ⭐ Force IPv4 (prevents ENETUNREACH error)
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS,
         },
+        tls: {
+            rejectUnauthorized: false
+        },
+        dnsLookup: (hostname, options, callback) => {
+            require("dns").lookup(hostname, { family: 4 }, callback);
+        }
     });
 };
 
